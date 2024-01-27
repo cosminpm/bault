@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'accountConfig.dart';
+import 'const.dart';
 
-
-List<Widget> createAllAccounts(Map<String, String> accounts){
+List<dynamic> createAllAccounts(Map<String, String> accounts) {
   List<Widget> result = [];
-  for (String social in accounts.keys){
+  for (String social in accounts.keys) {
     String account = accounts[social]!;
     result.add(createAccount(account, social));
   }
@@ -13,23 +13,36 @@ List<Widget> createAllAccounts(Map<String, String> accounts){
   return result;
 }
 
-Widget createAccount(String account, String type) {
+dynamic createAccount(String account, String type) {
   String link = accountToLink(account, type);
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Icon(
-        accounts[type]![ICON],
+        accountsConfigurations[type]![ICON],
         size: 30,
       ),
-      TextButton(child: Text(account), onPressed: () => openLink(link))
-    ],
+      TextButton(
+        child: Text(account, style: myTextStyle),
+        onPressed: () => openLink(link),
+      ),
+      SizedBox(
+        height: 30,
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Switch(
+            activeColor: Colors.black87,
+            value: true,
+            onChanged: (bool value1) {},
+          ),
+        ),
+      ),    ],
   );
 }
 
-String accountToLink(String account, String type){
-  return accounts[type]?[URL].replaceAll(ACCOUNT_VAR, account);
+String accountToLink(String account, String type) {
+  return accountsConfigurations[type]?[URL].replaceAll(ACCOUNT_VAR, account);
 }
 
 Future<void> openLink(String link) async {

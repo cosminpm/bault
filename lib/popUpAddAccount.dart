@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'accountConfig.dart';
+
 
 class CustomPopup extends StatefulWidget {
   @override
@@ -8,8 +10,6 @@ class CustomPopup extends StatefulWidget {
 }
 
 class _CustomPopupState extends State<CustomPopup> {
-
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -42,8 +42,62 @@ class _CustomPopupState extends State<CustomPopup> {
               },
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              ...addMultipleAccounts(accountsConfigurations),
+            ],
+          )
         ],
       ),
     );
   }
+}
+
+
+List<Widget> addMultipleAccounts(Map<String, dynamic> accountConfigs){
+  List<Widget> result = [];
+  for (String account in accountConfigs.keys){
+    result.add(addOneAccount(account, accountConfigs[account]));
+    result.add(SizedBox(height: 10));
+  }
+  return result;
+}
+
+
+Widget addOneAccount(String id, Map<String, dynamic> accountConfig) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Icon(accountConfig[ICON], size: 30,),
+          SizedBox(width: 10),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15), // Adjust the radius as needed
+                border: Border.all(
+                  color: Colors.grey, // Border color
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter text...',
+                    border: InputBorder.none, // Hide the default border of TextField
+                  ),
+                  onChanged: (value) {
+                    // Handle text field value changes here
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
 }

@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-IconButton buttonCreateAccout(context) {
+IconButton buttonCreateAccount(context) {
   return IconButton(
       icon: Icon(FontAwesomeIcons.plus),
       onPressed: () {
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             createQrImage(userAccount),
             ...createAllAccounts(userAccount),
-            buttonCreateAccout(context),
+            buttonCreateAccount(context),
           ],
         ),
       ),

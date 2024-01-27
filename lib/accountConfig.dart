@@ -12,7 +12,7 @@ Map<String, String> idToAccount = {
   "4": "linkedin",
 };
 
-Map<String, Map<String, dynamic>> accounts = {
+Map<String, Map<String, dynamic>> accountsConfigurations = {
   "instagram": {
     ID: "1",
     URL: "https://www.instagram.com/$ACCOUNT_VAR",
@@ -33,5 +33,20 @@ Map<String, Map<String, dynamic>> accounts = {
     ID: "4",
     URL: "https://www.linkedin.com/in/$ACCOUNT_VAR",
     ICON: FontAwesomeIcons.linkedin
+  },
+  "threads":{
+    ID: "5",
+    URL: "https://www.threads.net/@$ACCOUNT_VAR",
+    ICON: FontAwesomeIcons.threads
+  },
+  "tiktok":{
+    ID: "6",
+    URL: "https://www.tiktok.com/@$ACCOUNT_VAR",
+    ICON: FontAwesomeIcons.tiktok
+  },
+  "github":{
+    ID: "7",
+    URL: "https://github.com/$ACCOUNT_VAR",
+    ICON: FontAwesomeIcons.github
   }
 };
