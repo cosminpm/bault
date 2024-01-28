@@ -4,10 +4,10 @@ import 'package:qisla/account.dart';
 import 'package:qisla/popUpAddAccount.dart';
 import 'package:qisla/qr.dart';
 
-Map<String, String> userAccount = {
-  "instagram": "yosoycosmin",
-  "linkedin": "cosminmp",
-  "twitter": "cosminpm"
+Map<String, Map> userAccount = {
+  "instagram": {"account": "yosoycosmin", "visibility": 1},
+  "linkedin": {"account": "cosminmp", "visibility": 1},
+  "twitter": {"account": "cosminpm", "visibility": 1},
 };
 
 void main() {
@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 IconButton buttonCreateAccount(context) {
   return IconButton(
-      icon: Icon(FontAwesomeIcons.plus),
+      icon: Icon(FontAwesomeIcons.circlePlus),
       onPressed: () {
         showDialog(
           context: context,
@@ -54,8 +54,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            createQrImage(userAccount),
-            ...createAllAccounts(userAccount),
+            QrWidget(
+              userAccounts: userAccount,
+              updateQrData: (newData) {
+                setState(() {
+                  userAccount = newData;
+                });
+              },
+            ),
+            ...createAllAccounts(userAccount, () {
+              setState(() {});
+            }),
             buttonCreateAccount(context),
           ],
         ),

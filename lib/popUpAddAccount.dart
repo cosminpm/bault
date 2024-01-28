@@ -86,7 +86,7 @@ Widget addOneAccount(String id, Map<String, dynamic> accountConfig) {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Enter text...',
+                    hintText: '...',
                     border: InputBorder.none, // Hide the default border of TextField
                   ),
                   onChanged: (value) {
