@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qisla/account.dart';
 import 'package:qisla/popUpAddAccount.dart';
+import 'package:qisla/putBackAccounts.dart';
 import 'package:qisla/qr.dart';
 
 Map<String, Map> userAccount = {
   "instagram": {"account": "yosoycosmin", "visibility": 1},
   "linkedin": {"account": "cosminmp", "visibility": 1},
   "twitter": {"account": "cosminpm", "visibility": 1},
+  "github": {"account": "cosminpm", "visibility": 1},
+
 };
 
 void main() {
@@ -45,6 +48,19 @@ IconButton buttonCreateAccount(context) {
       });
 }
 
+IconButton buttonPutBackAccount(context, function) {
+  return IconButton(
+      icon: Icon(FontAwesomeIcons.arrowUp),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return BackAccountPopUp(updateQr: function); // Custom popup content
+          },
+        );
+      });
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -66,6 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {});
             }),
             buttonCreateAccount(context),
+            buttonPutBackAccount(context, () {
+              setState(() {});
+            })
           ],
         ),
       ),

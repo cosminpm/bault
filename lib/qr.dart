@@ -37,7 +37,6 @@ class _QrWidgetState extends State<QrWidget> {
   void updateQrData() {
     setState(() {
       qrData = createQrData(widget.userAccounts);
-      print(widget.userAccounts);
     });
   }
   @override

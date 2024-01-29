@@ -61,17 +61,23 @@ class _AccountWidgetState extends State<AccountWidget> {
       child: Visibility(
         visible: switchValue,
         maintainSize: false, // Prevents maintaining space when widget is invisible
-        child: Row(
+        child:Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, // Adjusted alignment
           children: [
-            Icon(
-              accountsConfigurations[widget.type]![ICON],
-              size: 30,
+            Spacer(flex: 1),
+            SizedBox( // Added SizedBox to ensure fixed width for the icon
+              width: 40.0, // Adjust width as needed
+              child: Icon(
+                accountsConfigurations[widget.type]![ICON],
+                size: 30,
+              ),
             ),
-            TextButton(
-              child: Text(widget.account, style: myTextStyle),
-              onPressed: () => openLink(link),
+            Expanded(
+              child: TextButton(
+                child: Text(widget.account, style: myTextStyle),
+                onPressed: () => openLink(link),
+              ),
             ),
             IconButton(
               onPressed: () {
@@ -80,13 +86,16 @@ class _AccountWidgetState extends State<AccountWidget> {
                   _containerHeight = 0.0; // Update container height to 0
                 });
                 widget.updateQr();
-                // Update the visibility to 0 in the userAccount map
                 userAccount[widget.type]!['visibility'] = 0;
               },
               icon: Icon(FontAwesomeIcons.circleMinus),
             ),
+            Spacer(flex: 1,),
+
           ],
+
         ),
+
       ),
     );
   }
