@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'account.dart';
 import 'accountConfig.dart';
 import 'main.dart';
 
 class BackAccountPopUp extends StatefulWidget {
-  final Function() updateQr;
-  const BackAccountPopUp({
-    required this.updateQr,
+  final AccountManager accountManager;
 
+  const BackAccountPopUp({
+    required this.accountManager,
     Key? key,
-  }):  super(key: key);
+  }) : super(key: key);
 
   @override
   _BackAccountPopUp createState() => _BackAccountPopUp();
@@ -61,7 +62,7 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
     );
   }
 
-  Widget addOneAccount(String id, Map<String, dynamic> accountConfig) {
+  Widget addOneAccount(String id, Map<String, dynamic> accountConfig, account) {
     return Column(
       children: [
         Row(
@@ -71,9 +72,9 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
                 accountConfig[ICON],
                 size: 30,
               ),
-              onPressed: (){
-                widget.updateQr();
-                userAccount[id]!['visibility'] = 1;
+              onPressed: () {
+                widget.accountManager.putBackButton(account);
+                setState(() {});
               },
             ),
             SizedBox(width: 10),
@@ -88,14 +89,10 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
     List<Widget> result = [];
     for (String account in userAccount.keys) {
       if (userAccount[account]['visibility'] == 0) {
-        result.add(addOneAccount(account, accountConfigurations[account]));
+        result.add(addOneAccount(account, accountConfigurations[account], account));
         result.add(SizedBox(height: 10));
       }
     }
     return result;
   }
 }
-
-
-
-

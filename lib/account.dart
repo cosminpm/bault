@@ -6,14 +6,11 @@ import 'const.dart';
 import 'main.dart';
 
 class AccountManager {
-  Map<String, dynamic> accountMap = {};
-  List<dynamic> accountsWidget = [];
   late final Function onUpdate;
+  Map<String, dynamic> accountWidgetMap = {};
 
   AccountManager(Map<String, dynamic> accountsMap, Function onUpdate){
-    this.accountMap = accountsMap;
     this.onUpdate = onUpdate;
-    this.accountsWidget;
   }
 
   List<Widget> createAllAccounts(
@@ -21,10 +18,18 @@ class AccountManager {
     List<Widget> result = [];
     for (String social in accounts.keys) {
       String account = accounts[social]!['account'];
-      result
-          .add(AccountWidget(account: account, type: social, onUpdate: onUpdate));
+      if (accounts[social]!['visibility'] == 1){
+        Widget w = AccountWidget(account: account, type: social, onUpdate: onUpdate);
+        result.add(w);
+        accountWidgetMap[social] = w;
+      }
     }
     return result;
+  }
+
+  void putBackButton(social){
+    userAccount[social]!['visibility'] = 1;
+    onUpdate();
   }
 }
 
@@ -45,58 +50,55 @@ class AccountWidget extends StatefulWidget {
 }
 
 class _AccountWidgetState extends State<AccountWidget> {
-  bool switchValue = true;
-  double _containerHeight = 40.0; // Initial height of the container
+
 
   @override
   Widget build(BuildContext context) {
     String link = accountToLink(widget.account, widget.type);
-
     return AnimatedContainer(
-      height: switchValue ? _containerHeight : 0,
+      height: 40,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      child: Visibility(
-        visible: switchValue,
-        maintainSize: false,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center, // Adjusted alignment
-          children: [
-            Spacer(flex: 1),
-            SizedBox(
-              width: 40.0, // Adjust width as needed
-              child: Icon(
-                accountsConfigurations[widget.type]![ICON],
-                size: 30,
-              ),
-            ),
-            Expanded(
-              child: TextButton(
-                child: Text(widget.account, style: myTextStyle),
-                onPressed: () => openLink(link),
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  switchValue = false;
-                  _containerHeight = 0.0;
-                  widget.onUpdate(); // <-- NOT DETECTED HERE
-                });
-                userAccount[widget.type]!['visibility'] = 0;
-              },
-              icon: Icon(FontAwesomeIcons.circleMinus),
-            ),
-            Spacer(
-              flex: 1,
-            ),
-          ],
+      child: CreateRowIcon(link),
+    );
+  }
+
+  Row CreateRowIcon(String link){
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Spacer(flex: 1),
+        SizedBox(
+          width: 40.0,
+          child: Icon(
+            accountsConfigurations[widget.type]![ICON],
+            size: 30,
+          ),
         ),
-      ),
+        Expanded(
+          child: TextButton(
+            child: Text(widget.account, style: myTextStyle),
+            onPressed: () => openLink(link),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            userAccount[widget.type]!['visibility'] = 0;
+            setState(() {
+              widget.onUpdate();
+            });
+          },
+          icon: Icon(FontAwesomeIcons.circleMinus),
+        ),
+        Spacer(
+          flex: 1,
+        ),
+      ],
     );
   }
 }
+
 
 
 

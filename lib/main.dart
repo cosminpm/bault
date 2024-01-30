@@ -10,7 +10,6 @@ Map<String, Map> userAccount = {
   "linkedin": {"account": "cosminmp", "visibility": 1},
   "twitter": {"account": "cosminpm", "visibility": 1},
   "github": {"account": "cosminpm", "visibility": 1},
-
 };
 
 void main() {
@@ -48,27 +47,14 @@ IconButton buttonCreateAccount(context) {
       });
 }
 
-IconButton buttonPutBackAccount(context, function) {
-  return IconButton(
-      icon: Icon(FontAwesomeIcons.arrowUp),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return BackAccountPopUp(updateQr: function); // Custom popup content
-          },
-        );
-      });
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   late AccountManager accountManager;
-  
 
   @override
   Widget build(BuildContext context) {
     accountManager = AccountManager(
-      userAccount, () {
+      userAccount,
+      () {
         setState(() {}); // Update the UI when AccountManager updates
       },
     );
@@ -98,5 +84,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  IconButton buttonPutBackAccount(context, function) {
+    return IconButton(
+        icon: Icon(FontAwesomeIcons.arrowUp),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return BackAccountPopUp(accountManager: accountManager,);
+              });
+        });
   }
 }
