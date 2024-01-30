@@ -50,12 +50,15 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
               },
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ...addMultipleAccounts(userAccount, accountsConfigurations),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...addMultipleAccounts(userAccount, accountsConfigurations),
+              ],
+            ),
           )
         ],
       ),
@@ -63,24 +66,15 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
   }
 
   Widget addOneAccount(String id, Map<String, dynamic> accountConfig, account) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                accountConfig[ICON],
-                size: 30,
-              ),
-              onPressed: () {
-                widget.accountManager.putBackButton(account);
-                setState(() {});
-              },
-            ),
-            SizedBox(width: 10),
-          ],
-        ),
-      ],
+    return IconButton(
+      icon: Icon(
+        accountConfig[ICON],
+        size: 30,
+      ),
+      onPressed: () {
+        widget.accountManager.putBackButton(account);
+        setState(() {});
+      },
     );
   }
 
@@ -89,7 +83,8 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
     List<Widget> result = [];
     for (String account in userAccount.keys) {
       if (userAccount[account]['visibility'] == 0) {
-        result.add(addOneAccount(account, accountConfigurations[account], account));
+        result.add(
+            addOneAccount(account, accountConfigurations[account], account));
         result.add(SizedBox(height: 10));
       }
     }

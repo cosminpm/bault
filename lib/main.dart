@@ -10,6 +10,8 @@ Map<String, Map> userAccount = {
   "linkedin": {"account": "cosminmp", "visibility": 1},
   "twitter": {"account": "cosminpm", "visibility": 1},
   "github": {"account": "cosminpm", "visibility": 1},
+  "tiktok": {"account": "cosminpm", "visibility": 1},
+  "threads": {"account": "cosminpm", "visibility": 1},
 };
 
 void main() {
