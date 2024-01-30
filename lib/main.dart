@@ -62,25 +62,34 @@ IconButton buttonPutBackAccount(context, function) {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late AccountManager accountManager;
+  
+
   @override
   Widget build(BuildContext context) {
+    accountManager = AccountManager(
+      userAccount, () {
+        setState(() {}); // Update the UI when AccountManager updates
+      },
+    );
+
+    QrWidget qr = QrWidget(
+      userAccounts: userAccount,
+      updateQrData: (newData) {
+        setState(() {
+          userAccount = newData;
+        });
+      },
+    );
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            QrWidget(
-              userAccounts: userAccount,
-              updateQrData: (newData) {
-                setState(() {
-                  userAccount = newData;
-                });
-              },
-            ),
-            ...createAllAccounts(userAccount, () {
-              setState(() {});
-            }),
+            qr,
+            ...accountManager.createAllAccounts(userAccount),
             buttonCreateAccount(context),
             buttonPutBackAccount(context, () {
               setState(() {});

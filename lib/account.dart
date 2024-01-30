@@ -5,40 +5,38 @@ import 'accountConfig.dart';
 import 'const.dart';
 import 'main.dart';
 
-List<dynamic> createAllAccounts(Map<String, dynamic> accounts,  Function() updateQr) {
-  List<Widget> result = [];
-  for (String social in accounts.keys) {
-    String account = accounts[social]!['account'];
-    result.add(AccountWidget(account: account, type: social, updateQr: updateQr));
+class AccountManager {
+  Map<String, dynamic> accountMap = {};
+  List<dynamic> accountsWidget = [];
+  late final Function onUpdate;
+
+  AccountManager(Map<String, dynamic> accountsMap, Function onUpdate){
+    this.accountMap = accountsMap;
+    this.onUpdate = onUpdate;
+    this.accountsWidget;
   }
-  return result;
-}
 
-String accountToLink(String account, String type) {
-  return accountsConfigurations[type]?[URL].replaceAll(ACCOUNT_VAR, account);
-}
-
-Future<void> openLink(String link) async {
-  final url = Uri.parse(link);
-
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url, mode: LaunchMode.externalApplication);
-  } else {
-    throw 'Could not launch $url';
+  List<Widget> createAllAccounts(
+      Map<String, dynamic> accounts) {
+    List<Widget> result = [];
+    for (String social in accounts.keys) {
+      String account = accounts[social]!['account'];
+      result
+          .add(AccountWidget(account: account, type: social, onUpdate: onUpdate));
+    }
+    return result;
   }
 }
 
 class AccountWidget extends StatefulWidget {
   final String account;
   final String type;
-  final Function() updateQr;
-
+  final Function onUpdate;
 
   const AccountWidget({
     required this.account,
     required this.type,
-    required this.updateQr,
-
+    required this.onUpdate,
     Key? key,
   }) : super(key: key);
 
@@ -55,18 +53,18 @@ class _AccountWidgetState extends State<AccountWidget> {
     String link = accountToLink(widget.account, widget.type);
 
     return AnimatedContainer(
-      height: switchValue ? _containerHeight : 0, // Set height to 0 when switchValue is false
-      duration: Duration(milliseconds: 300), // Adjust duration as needed
-      curve: Curves.easeInOut, // Optional: Add easing curve
+      height: switchValue ? _containerHeight : 0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       child: Visibility(
         visible: switchValue,
-        maintainSize: false, // Prevents maintaining space when widget is invisible
-        child:Row(
+        maintainSize: false,
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center, // Adjusted alignment
           children: [
             Spacer(flex: 1),
-            SizedBox( // Added SizedBox to ensure fixed width for the icon
+            SizedBox(
               width: 40.0, // Adjust width as needed
               child: Icon(
                 accountsConfigurations[widget.type]![ICON],
@@ -83,20 +81,35 @@ class _AccountWidgetState extends State<AccountWidget> {
               onPressed: () {
                 setState(() {
                   switchValue = false;
-                  _containerHeight = 0.0; // Update container height to 0
+                  _containerHeight = 0.0;
+                  widget.onUpdate(); // <-- NOT DETECTED HERE
                 });
-                widget.updateQr();
                 userAccount[widget.type]!['visibility'] = 0;
               },
               icon: Icon(FontAwesomeIcons.circleMinus),
             ),
-            Spacer(flex: 1,),
-
+            Spacer(
+              flex: 1,
+            ),
           ],
-
         ),
-
       ),
     );
+  }
+}
+
+
+
+String accountToLink(String account, String type) {
+  return accountsConfigurations[type]?[URL].replaceAll(ACCOUNT_VAR, account);
+}
+
+Future<void> openLink(String link) async {
+  final url = Uri.parse(link);
+
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url, mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
   }
 }

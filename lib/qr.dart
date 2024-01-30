@@ -15,8 +15,6 @@ String createQrData(Map<String, dynamic> userAccounts){
   return result;
 }
 
-
-
 class QrWidget extends StatefulWidget {
   final Map<String, dynamic> userAccounts;
   final Function updateQrData;
