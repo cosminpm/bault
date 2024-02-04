@@ -50,15 +50,12 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
               },
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ...addMultipleAccounts(userAccount, accountsConfigurations),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ...addMultipleAccounts(userAccount, accountsConfigurations),
+            ],
           )
         ],
       ),
@@ -81,6 +78,7 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
   List<Widget> addMultipleAccounts(Map<String, dynamic> userAccount,
       Map<String, dynamic> accountConfigurations) {
     List<Widget> result = [];
+
     for (String account in userAccount.keys) {
       if (userAccount[account]['visibility'] == 0) {
         result.add(
@@ -88,6 +86,11 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
         result.add(SizedBox(height: 10));
       }
     }
+
+    if (result.length == 0) {
+      result.add(Text('You added all socials to your widget'));
+    }
+
     return result;
   }
 }
