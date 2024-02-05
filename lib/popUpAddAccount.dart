@@ -64,11 +64,10 @@ class _CustomPopupState extends State<CustomPopup> {
     );
   }
   Widget addOneAccount(String id, Map<String, dynamic> accountConfig) {
-    String hintText = "";
+    String accountId = "";
     if (userAccount[id] != null) {
-      hintText = userAccount[id]?['account'];
+      accountId = userAccount[id]?['account'];
     }
-
 
     return Column(
       children: [
@@ -87,7 +86,7 @@ class _CustomPopupState extends State<CustomPopup> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
-                    controller: TextEditingController(text: hintText),
+                    controller: TextEditingController(text: accountId),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                     ),
@@ -95,7 +94,6 @@ class _CustomPopupState extends State<CustomPopup> {
                       int visibility = value != "" ? 1: 0;
                       userAccount[id] = {'account': value, 'visibility':visibility};
                       widget.accountManager.onUpdate();
-                      print(userAccount[id]);
                     },
                   ),
                 ),

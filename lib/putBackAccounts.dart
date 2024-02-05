@@ -85,7 +85,6 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
         result.add(SizedBox(height: 10));
       }
     }
-
     if (result.length == 0) {
       result.add(Text('You added all socials to your QR'));
     }
