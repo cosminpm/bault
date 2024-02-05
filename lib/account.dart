@@ -50,8 +50,6 @@ class AccountWidget extends StatefulWidget {
 }
 
 class _AccountWidgetState extends State<AccountWidget> {
-
-
   @override
   Widget build(BuildContext context) {
     String link = accountToLink(widget.account, widget.type);

@@ -78,7 +78,6 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
   List<Widget> addMultipleAccounts(Map<String, dynamic> userAccount,
       Map<String, dynamic> accountConfigurations) {
     List<Widget> result = [];
-
     for (String account in userAccount.keys) {
       if (userAccount[account]['visibility'] == 0) {
         result.add(
@@ -88,8 +87,9 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
     }
 
     if (result.length == 0) {
-      result.add(Text('You added all socials to your widget'));
+      result.add(Text('You added all socials to your QR'));
     }
+
 
     return result;
   }

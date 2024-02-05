@@ -36,18 +36,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-IconButton buttonCreateAccount(context) {
-  return IconButton(
-      icon: Icon(FontAwesomeIcons.circlePlus),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomPopup(); // Custom popup content
-          },
-        );
-      });
-}
+
 
 class _MyHomePageState extends State<MyHomePage> {
   late AccountManager accountManager;
@@ -97,6 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context) {
                 return BackAccountPopUp(accountManager: accountManager,);
               });
+        });
+  }
+  IconButton buttonCreateAccount(context) {
+    return IconButton(
+        icon: Icon(FontAwesomeIcons.circlePlus),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomPopup(accountManager: accountManager); // Custom popup content
+            },
+          );
         });
   }
 }
