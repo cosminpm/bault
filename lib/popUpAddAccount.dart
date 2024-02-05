@@ -96,7 +96,6 @@ class _CustomPopupState extends State<CustomPopup> {
                       userAccount[id] = {'account': value, 'visibility':visibility};
                       widget.accountManager.onUpdate();
                       print(userAccount[id]);
-
                     },
                   ),
                 ),

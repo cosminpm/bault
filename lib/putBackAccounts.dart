@@ -79,7 +79,7 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
       Map<String, dynamic> accountConfigurations) {
     List<Widget> result = [];
     for (String account in userAccount.keys) {
-      if (userAccount[account]['visibility'] == 0) {
+      if (userAccount[account]['visibility'] == 0 && userAccount[account]['account'] != "") {
         result.add(
             addOneAccount(account, accountConfigurations[account], account));
         result.add(SizedBox(height: 10));
