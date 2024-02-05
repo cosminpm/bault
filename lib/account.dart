@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'SharedPreferences.dart';
 import 'accountConfig.dart';
 import 'const.dart';
 import 'main.dart';
@@ -8,13 +9,15 @@ import 'main.dart';
 class AccountManager {
   late final Function onUpdate;
   Map<String, dynamic> accountWidgetMap = {};
+  late SharedPref pf;
 
-  AccountManager(Map<String, dynamic> accountsMap, Function onUpdate){
+  AccountManager(Map<dynamic, dynamic> accountsMap, Function onUpdate, SharedPref pf){
     this.onUpdate = onUpdate;
+    this.pf = pf;
   }
 
   List<Widget> createAllAccounts(
-      Map<String, dynamic> accounts) {
+      Map<dynamic, dynamic> accounts) {
     List<Widget> result = [];
     for (String social in accounts.keys) {
       String account = accounts[social]!['account'];
@@ -28,7 +31,7 @@ class AccountManager {
   }
 
   void putBackButton(social){
-    userAccount[social]!['visibility'] = 1;
+    userAccounts[social]!['visibility'] = 1;
     onUpdate();
   }
 }
@@ -53,6 +56,7 @@ class _AccountWidgetState extends State<AccountWidget> {
   @override
   Widget build(BuildContext context) {
     String link = accountToLink(widget.account, widget.type);
+
     return AnimatedContainer(
       height: 40,
       duration: Duration(milliseconds: 300),
@@ -82,7 +86,7 @@ class _AccountWidgetState extends State<AccountWidget> {
         ),
         IconButton(
           onPressed: () {
-            userAccount[widget.type]!['visibility'] = 0;
+            userAccounts[widget.type]!['visibility'] = 0;
             setState(() {
               widget.onUpdate();
             });

@@ -3,7 +3,7 @@ import 'account.dart';
 import 'package:flutter/material.dart';
 
 
-String createQrData(Map<String, dynamic> userAccounts){
+String createQrData(Map<dynamic, dynamic> userAccounts){
   String result = "";
   for (String social in userAccounts.keys){
     if (userAccounts[social]!['visibility'] == 1){
@@ -16,7 +16,7 @@ String createQrData(Map<String, dynamic> userAccounts){
 }
 
 class QrWidget extends StatefulWidget {
-  final Map<String, dynamic> userAccounts;
+  final Map<dynamic, dynamic> userAccounts;
   final Function updateQrData;
 
   const QrWidget({

@@ -65,8 +65,8 @@ class _CustomPopupState extends State<CustomPopup> {
   }
   Widget addOneAccount(String id, Map<String, dynamic> accountConfig) {
     String accountId = "";
-    if (userAccount[id] != null) {
-      accountId = userAccount[id]?['account'];
+    if (userAccounts[id] != null) {
+      accountId = userAccounts[id]?['account'];
     }
 
     return Column(
@@ -92,7 +92,7 @@ class _CustomPopupState extends State<CustomPopup> {
                     ),
                     onChanged: (value) {
                       int visibility = value != "" ? 1: 0;
-                      userAccount[id] = {'account': value, 'visibility':visibility};
+                      userAccounts[id] = {'account': value, 'visibility':visibility};
                       widget.accountManager.onUpdate();
                     },
                   ),

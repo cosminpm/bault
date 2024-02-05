@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qisla/SharedPreferences.dart';
 import 'package:qisla/account.dart';
 import 'package:qisla/popUpAddAccount.dart';
 import 'package:qisla/putBackAccounts.dart';
 import 'package:qisla/qr.dart';
 
-Map<String, Map> userAccount = {
-  "instagram": {"account": "yosoycosmin", "visibility": 1},
-  "linkedin": {"account": "cosminmp", "visibility": 1},
-  "twitter": {"account": "cosminpm", "visibility": 1},
-  "github": {"account": "cosminpm", "visibility": 1},
-  "tiktok": {"account": "cosminpm", "visibility": 1},
-  "threads": {"account": "cosminpm", "visibility": 1},
-};
+var userAccounts = {'userAccounts': {}};
 
 void main() {
   runApp(const MyApp());
@@ -36,25 +30,40 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
   late AccountManager accountManager;
+  SharedPref sp = SharedPref();
+
+  @override
+  void initState() {
+    super.initState();
+    initResources();
+  }
+
+  void initResources() async {
+    await sp.init();
+    userAccounts = await sp.getUserAccounts();
+
+  }
+
+  void onUpdate() {
+    sp.setUserAccounts(userAccounts);
+    () {
+      setState(() {}); // Update the UI when AccountManager updates
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
-    accountManager = AccountManager(
-      userAccount,
-      () {
-        setState(() {}); // Update the UI when AccountManager updates
-      },
-    );
+    accountManager = AccountManager(userAccounts, () {
+      setState(() {}); // Update the UI when AccountManager updates
+    }, sp);
 
     QrWidget qr = QrWidget(
-      userAccounts: userAccount,
+      userAccounts: userAccounts,
       updateQrData: (newData) {
         setState(() {
-          userAccount = newData;
+          userAccounts = newData;
         });
       },
     );
@@ -66,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             qr,
-            ...accountManager.createAllAccounts(userAccount),
+            ...accountManager.createAllAccounts(userAccounts),
             buttonCreateAccount(context),
             buttonPutBackAccount(context, () {
               setState(() {});
@@ -84,10 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return BackAccountPopUp(accountManager: accountManager,);
+                return BackAccountPopUp(
+                  accountManager: accountManager,
+                );
               });
         });
   }
+
   IconButton buttonCreateAccount(context) {
     return IconButton(
         icon: Icon(FontAwesomeIcons.circlePlus),
@@ -95,7 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return CustomPopup(accountManager: accountManager); // Custom popup content
+              return CustomPopup(
+                  accountManager: accountManager); // Custom popup content
             },
           );
         });

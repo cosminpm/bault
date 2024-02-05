@@ -54,7 +54,7 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ...addMultipleAccounts(userAccount, accountsConfigurations),
+              ...addMultipleAccounts(userAccounts, accountsConfigurations),
             ],
           )
         ],
@@ -75,7 +75,7 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
     );
   }
 
-  List<Widget> addMultipleAccounts(Map<String, dynamic> userAccount,
+  List<Widget> addMultipleAccounts(Map<dynamic, dynamic> userAccount,
       Map<String, dynamic> accountConfigurations) {
     List<Widget> result = [];
     for (String account in userAccount.keys) {
