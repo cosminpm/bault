@@ -6,19 +6,22 @@ import 'accountConfig.dart';
 import 'main.dart';
 
 
-class CustomPopup extends StatefulWidget {
+class AddAccount extends StatefulWidget {
   final AccountManager accountManager;
+  final Function()? onDialogDismissed;
 
-  const CustomPopup({
+  const AddAccount({
     required this.accountManager,
+    required this.onDialogDismissed,
+
     Key? key,
   }) : super(key: key);
 
   @override
-  _CustomPopupState createState() => _CustomPopupState();
+  _AddAccountState createState() => _AddAccountState();
 }
 
-class _CustomPopupState extends State<CustomPopup> {
+class _AddAccountState extends State<AddAccount> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -47,7 +50,9 @@ class _CustomPopupState extends State<CustomPopup> {
             child: IconButton(
               icon: Icon(FontAwesomeIcons.xmark),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
+                  widget.onDialogDismissed!();
+
               },
             ),
           ),
@@ -93,7 +98,6 @@ class _CustomPopupState extends State<CustomPopup> {
                     onChanged: (value) {
                       int visibility = value != "" ? 1: 0;
                       userAccounts[id] = {'account': value, 'visibility':visibility};
-                      widget.accountManager.onUpdate();
                     },
                   ),
                 ),

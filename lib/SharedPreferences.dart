@@ -10,13 +10,12 @@ class SharedPref {
     sp = await SharedPreferences.getInstance();
   }
 
-  Future<dynamic> getUserAccounts(userAccounts) async {
+  Future<Map<dynamic, dynamic>> getUserAccounts(userAccounts) async {
     print("DEBUG: GET PREFERENCES");
     String encodedMap = sp.getString('userAccounts') ?? "";
     if (encodedMap == ""){
       return userAccounts;
     }
-    print("DEBUG: GET PREFERENCES");
     print(encodedMap);
     return json.decode(encodedMap);
   }

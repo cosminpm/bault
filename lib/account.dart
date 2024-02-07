@@ -7,12 +7,10 @@ import 'const.dart';
 import 'main.dart';
 
 class AccountManager {
-  late final Function onUpdate;
   Map<String, dynamic> accountWidgetMap = {};
   late SharedPref pf;
 
   AccountManager(Map<dynamic, dynamic> accountsMap, Function onUpdate, SharedPref pf){
-    this.onUpdate = onUpdate;
     this.pf = pf;
   }
 
@@ -22,7 +20,7 @@ class AccountManager {
     for (String social in accounts.keys) {
       String account = accounts[social]!['account'];
       if (accounts[social]!['visibility'] == 1){
-        Widget w = AccountWidget(account: account, type: social, onUpdate: onUpdate);
+        Widget w = AccountWidget(account: account, type: social);
         result.add(w);
         accountWidgetMap[social] = w;
       }
@@ -32,19 +30,16 @@ class AccountManager {
 
   void putBackButton(social){
     userAccounts[social]!['visibility'] = 1;
-    onUpdate();
   }
 }
 
 class AccountWidget extends StatefulWidget {
   final String account;
   final String type;
-  final Function onUpdate;
 
   const AccountWidget({
     required this.account,
     required this.type,
-    required this.onUpdate,
     Key? key,
   }) : super(key: key);
 
@@ -87,9 +82,6 @@ class _AccountWidgetState extends State<AccountWidget> {
         IconButton(
           onPressed: () {
             userAccounts[widget.type]!['visibility'] = 0;
-            setState(() {
-              widget.onUpdate();
-            });
           },
           icon: Icon(FontAwesomeIcons.circleMinus),
         ),

@@ -42,7 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
     initResources();
   }
 
-
   void initResources() async {
     userAccounts = createInitialEmptyAccounts(accountsConfigurations);
     await sp.init();
@@ -85,6 +84,26 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  IconButton buttonCreateAccount(context) {
+    return IconButton(
+      icon: Icon(FontAwesomeIcons.circlePlus),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AddAccount(
+              accountManager: accountManager, onDialogDismissed: () {  },
+            );
+          },
+        ).then((_) {
+          setState(() {
+            sp.setUserAccounts(userAccounts);
+          });
+        });
+      },
+    );
+  }
+
   IconButton buttonPutBackAccount(context, function) {
     return IconButton(
         icon: Icon(FontAwesomeIcons.arrowUp),
@@ -99,17 +118,5 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  IconButton buttonCreateAccount(context) {
-    return IconButton(
-        icon: Icon(FontAwesomeIcons.circlePlus),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CustomPopup(
-                  accountManager: accountManager); // Custom popup content
-            },
-          );
-        });
-  }
+
 }
