@@ -5,7 +5,6 @@ import 'package:qisla/account.dart';
 import 'package:qisla/popUpAddAccount.dart';
 import 'package:qisla/putBackAccounts.dart';
 import 'package:qisla/qr.dart';
-
 import 'accountConfig.dart';
 
 late Map userAccounts;
@@ -35,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late AccountManager accountManager;
   SharedPref sp = SharedPref();
-
+  bool _resourcesInitialized = false;
   @override
   void initState() {
     super.initState();
@@ -46,10 +45,21 @@ class _MyHomePageState extends State<MyHomePage> {
     userAccounts = createInitialEmptyAccounts(accountsConfigurations);
     await sp.init();
     userAccounts = await sp.getUserAccounts(userAccounts);
+    setState(() {
+      _resourcesInitialized = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_resourcesInitialized) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     accountManager = AccountManager(userAccounts, sp, () {
       setState(() {
         sp.setUserAccounts(userAccounts);
@@ -63,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       },
     );
-
+    print('AQUI');
+    print(userAccounts);
     return Scaffold(
       body: Center(
         child: Column(

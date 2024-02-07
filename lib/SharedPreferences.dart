@@ -22,9 +22,6 @@ class SharedPref {
 
   Future<void> setUserAccounts(Map<dynamic, dynamic> userAccounts) async {
     String encodedMap = json.encode(userAccounts);
-    print("DEBUG: SET PREFERENCES");
-
-    print(encodedMap);
     await sp.setString('userAccounts', encodedMap);
   }
 }
