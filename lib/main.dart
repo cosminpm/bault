@@ -6,7 +6,9 @@ import 'package:qisla/popUpAddAccount.dart';
 import 'package:qisla/putBackAccounts.dart';
 import 'package:qisla/qr.dart';
 
-var userAccounts = {'userAccounts': {}};
+import 'accountConfig.dart';
+
+late Map userAccounts;
 
 void main() {
   runApp(const MyApp());
@@ -40,30 +42,25 @@ class _MyHomePageState extends State<MyHomePage> {
     initResources();
   }
 
+
   void initResources() async {
+    userAccounts = createInitialEmptyAccounts(accountsConfigurations);
     await sp.init();
-    userAccounts = await sp.getUserAccounts();
-
-  }
-
-  void onUpdate() {
-    sp.setUserAccounts(userAccounts);
-    () {
-      setState(() {}); // Update the UI when AccountManager updates
-    };
+    userAccounts = await sp.getUserAccounts(userAccounts);
   }
 
   @override
   Widget build(BuildContext context) {
     accountManager = AccountManager(userAccounts, () {
-      setState(() {}); // Update the UI when AccountManager updates
+      setState(() {
+        sp.setUserAccounts(userAccounts);
+      });
     }, sp);
-
     QrWidget qr = QrWidget(
       userAccounts: userAccounts,
       updateQrData: (newData) {
         setState(() {
-          userAccounts = newData;
+          sp.setUserAccounts(userAccounts);
         });
       },
     );
@@ -78,7 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ...accountManager.createAllAccounts(userAccounts),
             buttonCreateAccount(context),
             buttonPutBackAccount(context, () {
-              setState(() {});
+              setState(() {
+                sp.setUserAccounts(userAccounts);
+              });
             })
           ],
         ),

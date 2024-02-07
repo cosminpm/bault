@@ -5,12 +5,6 @@ const String ICON = "icon";
 const String ACCOUNT_VAR = "<ACCOUNT_VAR>";
 const String ID = "id";
 
-Map<String, String> idToAccount = {
-  "1": "instagram",
-  "2": "twitter",
-  "3": "snapchat",
-  "4": "linkedin",
-};
 
 Map<String, Map<String, dynamic>> accountsConfigurations = {
   "instagram": {

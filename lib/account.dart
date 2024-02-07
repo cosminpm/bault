@@ -117,3 +117,11 @@ Future<void> openLink(String link) async {
     throw 'Could not launch $url';
   }
 }
+
+Map createInitialEmptyAccounts(Map accountsConfigurations){
+  Map result = {};
+  for (String config in accountsConfigurations.keys){
+    result[config] = {'account' : "", 'visibility': 0};
+  }
+  return result;
+}
