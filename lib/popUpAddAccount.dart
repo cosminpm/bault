@@ -8,11 +8,9 @@ import 'main.dart';
 
 class AddAccount extends StatefulWidget {
   final AccountManager accountManager;
-  final Function()? onDialogDismissed;
 
   const AddAccount({
     required this.accountManager,
-    required this.onDialogDismissed,
 
     Key? key,
   }) : super(key: key);
@@ -51,8 +49,6 @@ class _AddAccountState extends State<AddAccount> {
               icon: Icon(FontAwesomeIcons.xmark),
               onPressed: () {
                 Navigator.of(context).pop();
-                  widget.onDialogDismissed!();
-
               },
             ),
           ),

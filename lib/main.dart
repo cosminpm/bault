@@ -50,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    accountManager = AccountManager(userAccounts, () {
+    accountManager = AccountManager(userAccounts, sp, () {
       setState(() {
         sp.setUserAccounts(userAccounts);
       });
-    }, sp);
+    });
     QrWidget qr = QrWidget(
       userAccounts: userAccounts,
       updateQrData: (newData) {
@@ -91,9 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AddAccount(
-              accountManager: accountManager, onDialogDismissed: () {  },
-            );
+            return AddAccount(accountManager: accountManager);
           },
         ).then((_) {
           setState(() {
@@ -117,6 +115,4 @@ class _MyHomePageState extends State<MyHomePage> {
               });
         });
   }
-
-
 }

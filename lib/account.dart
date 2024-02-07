@@ -9,9 +9,11 @@ import 'main.dart';
 class AccountManager {
   Map<String, dynamic> accountWidgetMap = {};
   late SharedPref pf;
+  late Function onUpdate; // Callback function to trigger UI update
 
-  AccountManager(Map<dynamic, dynamic> accountsMap, Function onUpdate, SharedPref pf){
+  AccountManager(Map<dynamic, dynamic> accountsMap, SharedPref pf, Function onUpdate){
     this.pf = pf;
+    this.onUpdate = onUpdate;
   }
 
   List<Widget> createAllAccounts(
@@ -20,7 +22,7 @@ class AccountManager {
     for (String social in accounts.keys) {
       String account = accounts[social]!['account'];
       if (accounts[social]!['visibility'] == 1){
-        Widget w = AccountWidget(account: account, type: social);
+        Widget w = AccountWidget(account: account, type: social, onUpdate: onUpdate,);
         result.add(w);
         accountWidgetMap[social] = w;
       }
@@ -36,10 +38,11 @@ class AccountManager {
 class AccountWidget extends StatefulWidget {
   final String account;
   final String type;
-
+  final Function onUpdate;
   const AccountWidget({
     required this.account,
     required this.type,
+    required this.onUpdate,
     Key? key,
   }) : super(key: key);
 
@@ -82,7 +85,8 @@ class _AccountWidgetState extends State<AccountWidget> {
         IconButton(
           onPressed: () {
             userAccounts[widget.type]!['visibility'] = 0;
-          },
+            widget.onUpdate();
+            },
           icon: Icon(FontAwesomeIcons.circleMinus),
         ),
         Spacer(
