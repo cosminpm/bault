@@ -112,7 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 return BackAccountPopUp(
                   accountManager: accountManager,
                 );
-              });
+              }).then((_) {
+            setState(() {
+              sp.setUserAccounts(userAccounts);
+            });
+          });
         });
   }
 }
