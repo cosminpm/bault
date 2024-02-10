@@ -73,8 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       },
     );
-    print('AQUI');
-    print(userAccounts);
     return Scaffold(
       body: Center(
         child: Column(
