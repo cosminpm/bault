@@ -81,15 +81,23 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             qr,
             ...accountManager.createAllAccounts(userAccounts),
-            buttonCreateAccount(context),
-            buttonPutBackAccount(context, () {
-              setState(() {
-                sp.setUserAccounts(userAccounts);
-              });
-            })
+            createButtons()
           ],
         ),
       ),
+    );
+  }
+
+  Row createButtons(){
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [buttonCreateAccount(context),
+        buttonPutBackAccount(context, () {
+          setState(() {
+            sp.setUserAccounts(userAccounts);
+          });
+        })],
     );
   }
 
