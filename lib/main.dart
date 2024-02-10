@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late AccountManager accountManager;
   SharedPref sp = SharedPref();
   bool _resourcesInitialized = false;
+
   @override
   void initState() {
     super.initState();
@@ -79,8 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text('Bault',
+                style: TextStyle(
+                  fontSize: 78,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                )),
             qr,
             ...accountManager.createAllAccounts(userAccounts),
+            SizedBox(height: 10),
             createButtons()
           ],
         ),
@@ -88,16 +96,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row createButtons(){
+  Row createButtons() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [buttonCreateAccount(context),
+      children: [
+        buttonCreateAccount(context),
         buttonPutBackAccount(context, () {
           setState(() {
             sp.setUserAccounts(userAccounts);
           });
-        })],
+        })
+      ],
     );
   }
 
