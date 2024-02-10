@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text('Bault',
                 style: TextStyle(
-                  fontSize: 78,
+                  fontSize: 80,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                 )),

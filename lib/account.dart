@@ -88,10 +88,10 @@ class _AccountWidgetState extends State<AccountWidget> {
             widget.onUpdate();
             },
           icon: Icon(FontAwesomeIcons.circleMinus),
+
         ),
-        Spacer(
-          flex: 1,
-        ),
+        Spacer(flex: 1),
+
       ],
     );
   }

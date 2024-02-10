@@ -79,16 +79,21 @@ class _BackAccountPopUp extends State<BackAccountPopUp> {
       Map<String, dynamic> accountConfigurations) {
     List<Widget> result = [];
     for (String account in userAccount.keys) {
-      if (userAccount[account]['visibility'] == 0 && userAccount[account]['account'] != "") {
+      if (userAccount[account]['visibility'] == 0 &&
+          userAccount[account]['account'] != "") {
         result.add(
             addOneAccount(account, accountConfigurations[account], account));
         result.add(SizedBox(height: 10));
       }
     }
     if (result.length == 0) {
-      result.add(Text('You added all socials to your QR'));
+      result.add(Text(
+        'All socials added',
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      ));
     }
-
 
     return result;
   }
